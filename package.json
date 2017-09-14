@@ -1,0 +1,28 @@
+{
+  "name": "delta",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "arraybuffer-to-string": "^1.0.1",
+    "async": "^2.5.0",
+    "co": "^4.6.0",
+    "jsmodbus": "^2.1.2",
+    "modbus-stream": "^0.36.0",
+    "modbus-tcp": "^0.4.12",
+    "stampit": "^3.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TitanLi/delta.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TitanLi/delta/issues"
+  },
+  "homepage": "https://github.com/TitanLi/delta#readme"
+}
