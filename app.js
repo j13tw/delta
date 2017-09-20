@@ -1,27 +1,24 @@
 var modbus = require('jsmodbus');
 var co = require('co');
+var Delta = require('./lib/delta.js');
 
 // create a modbus client
 var client = modbus.client.tcp.complete({
         'host'              : '60.249.15.90',
         'port'              : 502,
         'autoReconnect'     : true,
-        'reconnectTimeout'  : 1000,
-        'timeout'           : 10000,
-        'unitId'            : 2      //slave:1 => IP
+        'reconnectTimeout'  : 10000,
+        'timeout'           : 3000,
+        'unitId'            : 2
     });
 
 client.connect();
 
+var delta = new Delta(client);
+
 client.on('connect', function () {
   console.log(123);
-  //IP
-  // client.readHoldingRegisters(152, 2).then(function (resp) {
-  //
-  //       // resp will look like { fc: 3, byteCount: 20, register: [ values 0 - 10 ], payload: <Buffer> }
-  //       console.log(resp);
-  //
-  //   }, console.error);
+
 
   //servo
   // servoStart(); //開啟4軸馬達
@@ -32,71 +29,26 @@ client.on('connect', function () {
   //movSpeed function 1~100 %
   //movStop function
 
-  function *foo(){
-    var movSpeedFun = yield movSpeed(60);
-    var movFun = yield mov(601);
-    var movStopFun = yield function(){
-      setTimeout(function (){
-        movStop();
-      },600);
-    }
-    // return [movSpeedFun,movFun,movStopFun];
-  }
-
   co(function *(){
-    yield *foo();
-    yield servoStop;
+    yield alarmReset();
+    yield delta.runRL(9);
+    yield delta.alarmReset();
+    yield delta.servoStop();
+    yield delta.servoStart();
+    yield delta.movSpeed(60);
+    yield delta.mov(601);
+    yield function(done){
+      setTimeout(function (){
+        done();
+      },600)
+    };
+    yield delta.movStop();
     return;
   }).then(function () {
-    console.log(123456);
-    servoStop();
-  })
-  // runRL(9);
-
+    // servoStop();
+  });
 });
 
 client.on('error', function(err){
     console.log('ERROR - ' + err);
 });
-
-function writeRegister(addresses,value){
-  return client.writeSingleRegister(addresses, value).then(function (resp) {
-        console.log(resp);
-  }, console.error);
-}
-
-function servoStart(){
-  client.writeSingleRegister(6, Buffer.from([0x01, 0x01])).then(function (resp) {
-
-        // resp will look like { fc: 2, byteCount: 20, coils: [ values 0 - 13 ], payload: <Buffer> }
-        console.log(resp);
-
-    }, console.error);
-
-  client.writeSingleRegister(7, Buffer.from([0x01, 0x01])).then(function (resp) {
-        // resp will look like { fc: 2, byteCount: 20, coils: [ values 0 - 13 ], payload: <Buffer> }
-        console.log(resp)
-    }, console.error);
-}
-
-function servoStop(){
-  writeRegister(6,Buffer.from([0x00, 0x00]));
-  writeRegister(7,Buffer.from([0x00, 0x00]));
-}
-
-function movStop(){
-  return writeRegister(768,1000);
-}
-
-function mov(value){
-  return writeRegister(768,value);
-}
-
-function movSpeed(value){
-  return writeRegister(804,value);
-}
-
-function runRL(value){
-  writeRegister(544,value);
-  writeRegister(552,6);
-}
