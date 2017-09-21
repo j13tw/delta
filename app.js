@@ -30,19 +30,22 @@ client.on('connect', function () {
   //movStop function
 
   co(function *(){
-    yield alarmReset();
-    yield delta.runRL(9);
-    yield delta.alarmReset();
-    yield delta.servoStop();
-    yield delta.servoStart();
-    yield delta.movSpeed(60);
-    yield delta.mov(601);
-    yield function(done){
-      setTimeout(function (){
-        done();
-      },600)
-    };
-    yield delta.movStop();
+    // yield alarmReset();
+    // yield delta.runRL(9);
+    // yield delta.alarmReset();
+    // yield delta.servoStop();
+    // yield delta.servoStart();
+    // yield delta.movSpeed(60);
+    // yield delta.mov(601);
+    // yield function(done){
+    //   setTimeout(function (){
+    //     done();
+    //   },600)
+    // };
+    // yield delta.movStop();
+    // yield delta.pauseRL();
+    // yield delta.startRL();
+    yield delta.stopRL();
     return;
   }).then(function () {
     // servoStop();
