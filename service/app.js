@@ -30,9 +30,11 @@ function sleep(ms) {
 
 router.post('/piano',function * (){
   var num = this.request.body.num;
+
   console.log("run project:" + num );
-  yield co(function *(a){
-    if(!isNaN(num) && Number.isInteger(num)){
+  console.log(typeof(num));
+  yield co(function *(){
+    if(!isNaN(num) && Number.isInteger(num) && (num==1 || num==2 || num==3)){
       client.connect();
       yield sleep(3000);
       yield delta.movStop();
@@ -44,13 +46,27 @@ router.post('/piano',function * (){
       yield delta.servoStart();
       yield sleep(1000);
       yield delta.runRL(num);
+    }else if(!isNaN(num) && Number.isInteger(num) && num == 4){
+      client.connect();
+      yield sleep(3000);
+      yield delta.stopRL();
     }
     return;
   }).then(function () {
 
   });
-  this.body = "ok"
 
+  if(num==1){
+    this.body = "望春風";
+  }else if(num==2){
+    this.body = "名偵探柯南";
+  }else if(num==3){
+    this.body = "夢中的婚禮";
+  }else if(num==4){
+    this.body = "停止";
+  }else{
+    this.body = "範圍錯誤";
+  }
 });
 
 client.on('connect', function () {
@@ -62,6 +78,6 @@ client.on('error', function(err){
 });
 
 app.use(router.middleware());
-app.listen(3000,function(){
-  console.log("listening port on 6000");
+app.listen(3001,function(){
+  console.log("listening port on 3001");
 });

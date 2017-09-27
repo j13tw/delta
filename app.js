@@ -30,7 +30,6 @@ client.on('connect', function () {
   //movStop function
 
   co(function *(){
-    // yield alarmReset();
     // yield delta.runRL(9);
     // yield delta.alarmReset();
     // yield delta.servoStop();
@@ -45,7 +44,7 @@ client.on('connect', function () {
     // yield delta.movStop();
     // yield delta.pauseRL();
     // yield delta.startRL();
-    yield delta.stopRL();
+    // yield delta.stopRL();
     return;
   }).then(function () {
     // servoStop();
