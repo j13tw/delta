@@ -23,7 +23,7 @@ module.exports = function(client){
     yield writeRegister(552,6);
   });
 
-  this.startpRL = function (){
+  this.startRL = function (){
     return writeRegister(552,2);
   };
 

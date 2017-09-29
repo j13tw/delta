@@ -19,15 +19,23 @@ var delta = new Delta(client);
 client.on('connect', function () {
   console.log(123);
 
-
   //servo
   // servoStart(); //開啟4軸馬達
   // servoStop();  //關閉4軸馬達
 
   //mov
-  //mov function X+601 X-602 Y+603 Y-604 Z+605 Z-606
-  //movSpeed function 1~100 %
-  //movStop function
+  // delta.mov(601); //移動方向 X+601 X-602 Y+603 Y-604 Z+605 Z-606
+  // delta.movSpeed(60); //移動速度 1~100 %
+  // delta.movStop(); //移動停止
+
+  //Reset
+  // delta.alarmReset(); //reset
+
+  //RL
+  // delta.startRL(); //開始執行
+  // delta.pauseRL(); //暫停
+  // delta.stopRL();  //停止
+  // delta.runRL(num); num=>第幾個腳本
 
   co(function *(){
     // yield delta.runRL(9);
