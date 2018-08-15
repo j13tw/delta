@@ -4,7 +4,7 @@ var Delta = require('./lib/delta.js');
 
 // create a modbus client
 var client = modbus.client.tcp.complete({
-    'host': '10.0.0.117',
+    'host': '10.0.0.177',
     'port': 502,
     'autoReconnect': true,
     'reconnectTimeout': 10000,
