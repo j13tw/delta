@@ -50,6 +50,8 @@ router.post('/piano', function*() {
             client.connect();
             yield sleep(3000);
             yield delta.stopRL();
+            yield sleep(1000);
+            yield delta.servoStop();
         }
         return;
     }).then(function() {
