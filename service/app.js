@@ -28,13 +28,13 @@ function sleep(ms) {
     });
 }
 
-router.post('/piano', function*() {
+router.post('/click', function*() {
     var num = this.request.body.num;
 
     console.log("run project:" + num);
     console.log(typeof(num));
     yield co(function*() {
-        if (!isNaN(num) && Number.isInteger(num) && (num == 1 || num == 2 || num == 3)) {
+        if (!isNaN(num) && Number.isInteger(num) && (num == 4 || num == 5 || num == 6 || num == 7 || num == 8)) {
             client.connect();
             yield sleep(3000);
             yield delta.movStop();
@@ -46,7 +46,7 @@ router.post('/piano', function*() {
             yield delta.servoStart();
             yield sleep(1000);
             yield delta.runRL(num);
-        } else if (!isNaN(num) && Number.isInteger(num) && num == 4) {
+        } else if (!isNaN(num) && Number.isInteger(num) && num == 0) {
             client.connect();
             yield sleep(3000);
             yield delta.stopRL();
@@ -58,17 +58,13 @@ router.post('/piano', function*() {
 
     });
 
-    if (num == 1) {
-        this.body = "望春風";
-    } else if (num == 2) {
-        this.body = "名偵探柯南";
-    } else if (num == 3) {
-        this.body = "夢中的婚禮";
-    } else if (num == 4) {
-        this.body = "停止";
-    } else {
-        this.body = "範圍錯誤";
-    }
+    if (num == 4) this.body = "A - Block"; 
+    else if (num == 5) this.body = "B - Block";
+    else if (num == 6) this.body = "C - Block";
+    else if (num == 7) this.body = "D - Block";
+    else if (num == 8) this.body = "E - Block";
+    else if (num == 0) this.body = "停止";
+    else this.body = "範圍錯誤";
 });
 
 client.on('connect', function() {
